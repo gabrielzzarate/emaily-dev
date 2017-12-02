@@ -10,7 +10,7 @@ const app = express();
  	res.send = immediately send json data
 */
 app.get('/', (req, res) => {
-	res.send({ hi: 'there' });
+	res.send({ hello: 'world' });
 });
 
 // PORT : heroku will be able to inject environment variables (variables that can be configured at deployment)
