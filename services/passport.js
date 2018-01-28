@@ -29,24 +29,36 @@ passport.use(
 			callbackURL: '/auth/google/callback',
 			proxy: true
 		},
-		(accessToken, refreshToken, profile, done ) => {
-			console.log('google profile', profile);
+		async (accessToken, refreshToken, profile, done) => {
 			// initiate query to prevent duplicate user records
-			User.findOne({ googleId: profile.id })
-				.then((existingUser) => {
-					if (existingUser) {
-						// we already have a record with the given profileId
-						done(null, existingUser);
-					} else {
-						// we don't have a user record with this iD, make a new record
-						new User({ googleId: profile.id }) // create a mongoose model instance -- single record, initial user
-							.save()
-							.then(user => done(null, user)); // the user we get back from the db, we make use of this one instead of the initial user
-					}
-				});
+			const existingUser = await User.findOne({ googleId: profile.id });
+				
+			if (existingUser) {
+				// we already have a record with the given profileId
+				done(null, existingUser);
+			} else {
+				// we don't have a user record with this iD, make a new record
+				const user = await new User({ googleId: profile.id }).save();
+				done(null, user); // the user we get back from the db, we make use of this one instead of the initial user
+			}
 		}
 	)
 );
+
+
+// write a function to retrieve a blog of json
+// make an ajax request! Use the 'fetch' function
+
+// function fetchAlbums(){
+// 	fetch('https://rallycoding.herokuapp.com/api/music-albums')
+// 		.then(res => res.json())
+// 		.then(json => console.log(json));
+// }
+
+
+
+
+
 
 /* returns 
 	accessToken -> allows us to reach back over to google and proves that we are allowed to use the profiles info
