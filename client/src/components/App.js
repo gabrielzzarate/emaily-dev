@@ -5,10 +5,10 @@ import * as actions from '../actions';
 
 // child components
 import Header from './Header';
+import Landing from './Landing';
 
-const Dashboard = () => <h2>Dashboard</h2>
-const SurveyNew = () => <h2>SurveyNew</h2>
-const Landing = () => <h2>Landing</h2>
+const Dashboard = () => <h2>Dashboard</h2>;
+const SurveyNew = () => <h2>SurveyNew</h2>;
 
 class App extends Component {
 	componentDidMount() {
@@ -19,7 +19,7 @@ class App extends Component {
 		console.log('props:', this.props);
 		return (
 			<div className="container">
-				<BrowserRouter> 
+				<BrowserRouter>
 					<div>
 						<Header />
 						<Route exact path="/" component={Landing} />
@@ -31,8 +31,5 @@ class App extends Component {
 		);
 	}
 }
-
-
-
 
 export default connect(null, actions)(App);
