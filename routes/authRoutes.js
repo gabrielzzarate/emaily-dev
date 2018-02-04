@@ -13,11 +13,17 @@ module.exports = app => {
 	// user gets logged out and an undefined user is returned
 	app.get('/api/logout', (req, res) => {
 		req.logout();
-		res.send(req.user);
+		res.redirect('/');
 	});
 
 	// use passport to exchange the user code for the user profile info
-	app.get('/auth/google/callback', passport.authenticate('google'));
+	app.get(
+		'/auth/google/callback',
+		passport.authenticate('google'),
+		(req, res) => {
+			res.redirect('/surveys');
+		}
+	);
 
 	/* 	the app object represents the underlying running express server
 	 	app.get creates a brand new route handler

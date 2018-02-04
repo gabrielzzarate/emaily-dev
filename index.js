@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 // must require in the User Model before passport.js executes, order of require statements can result
 // in errors in the application
@@ -15,6 +16,7 @@ const app = express();
 // tell passport to make use of cookies to keep track of users within our application
 // authentication middlewares, adjusting the request to passport. Cookie session extracts cookie data and passes it to passport in req.session
 // Passport middleware pulls user id out of cookie data.
+app.use(bodyParser.json());
 app.use(
 	cookieSession({
 		maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
@@ -25,6 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 // PORT : heroku will be able to inject environment variables (variables that can be configured at deployment)
 // boolean handles the development environment
